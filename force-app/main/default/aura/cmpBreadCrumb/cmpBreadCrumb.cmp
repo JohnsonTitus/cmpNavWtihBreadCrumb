@@ -1,0 +1,42 @@
+<!--
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="myBreadcrumbs" type="Object"/>
+    <aura:attribute name="path" type="String" />
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <lightning:breadcrumbs>
+        <aura:iteration items="{! v.myBreadcrumbs }" var="crumbs">
+            <lightning:breadcrumb label="{! crumbs.label }" onclick="{! c.navigateTo }" name="{! crumbs.name }" href="{!v.path}" />
+        </aura:iteration>
+    </lightning:breadcrumbs>
+</aura:component>
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global">
+    <!--available navigation menu items-->
+    <aura:attribute name="FixedBreadcrumbs" type="String[]" default="Home,Bread,End"/>
+    <!--It will have the first item of the navigation items
+    every time the user click on next
+    the next item in the fixedbreadcrumbs should be assigned to it-->
+    <aura:attribute name="Breadcrumbs" type="String[]" default="Home"/>
+    <!--it will display the first item of the navigation-->
+    <aura:attribute name="itemName" type="String" default="Home"/>
+
+<div class="breadcrumb">
+        
+        <aura:iteration items="{!v.Breadcrumbs}" var="menu" indexVar="i">
+            <c:BreadcrumbContent index="{!i}" menu="{!menu}" cmpEvent="{!c.setNavigationEvent}"/>
+        </aura:iteration>
+        
+</div>
+        
+<div class="container">
+<div>
+            This is <b>{!v.itemName}</b>  Breadcrumbs</div>
+            <aura:if isTrue="{!v.FixedBreadcrumbs.length > v.Breadcrumbs.length}">
+                    <ui:Button label="Next" press="{!c.next}" />
+                <aura:set attribute="else">
+                    <ui:Button label="Previous" press="{!c.previous}" />
+                </aura:set>
+            </aura:if>
+</div>
+</aura:component>
+
